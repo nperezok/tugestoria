@@ -114,6 +114,17 @@ async function cancelarEvento(eventId) {
   }
 }
 
+const DIAS_CORTOS = ['Dom', 'Lun', 'Mar', 'Mié', 'Jue', 'Vie', 'Sáb'];
+
+function formatearFechaCorta(date) {
+  const dia = DIAS_CORTOS[date.getDay()];
+  const dd = String(date.getDate()).padStart(2, '0');
+  const mm = String(date.getMonth() + 1).padStart(2, '0');
+  const opts = { hour: '2-digit', minute: '2-digit', timeZone: config.business.timezone, hour12: false };
+  const hora = date.toLocaleTimeString('es-AR', opts);
+  return `${dia} ${dd}/${mm} ${hora}`;
+}
+
 function formatearFechaLegible(date) {
   return date.toLocaleString('es-AR', {
     weekday: 'long',
@@ -130,4 +141,5 @@ module.exports = {
   crearEvento,
   cancelarEvento,
   formatearFechaLegible,
+  formatearFechaCorta,
 };

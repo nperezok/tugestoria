@@ -175,9 +175,10 @@ async function ofrecerTurnos(telefono, cliente, caso) {
     return;
   }
 
-  const opciones = slots.map((slot, i) => ({
+  const opciones = slots.map((slot) => ({
     id: `turno_${slot.toISOString()}`,
-    title: calendar.formatearFechaLegible(slot).slice(0, 24),
+    title: calendar.formatearFechaCorta(slot),
+    description: calendar.formatearFechaLegible(slot),
   }));
 
   await whatsapp.enviarLista(telefono, 'Estos son los próximos horarios disponibles:', 'Ver horarios', opciones);
