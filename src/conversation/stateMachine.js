@@ -12,8 +12,16 @@ const NOMBRES_TRAMITE = {
   otro: 'Consulta general',
 };
 
+const PALABRAS_REINICIO = ['reiniciar', 'menu', 'menú', 'empezar de nuevo', 'volver al inicio'];
+
 async function manejarMensajeEntrante(telefono, textoEntrante, nombrePerfilWA) {
   const cliente = db.getOrCreateCliente(telefono);
+
+  // Palabra clave de reinicio: útil si el cliente queda trabado en algún paso
+  // (por ejemplo, si vuelve a tocar un botón de WhatsApp que ya usó antes)
+  if (PALABRAS_REINICIO.includes(textoEntrante.trim().toLowerCase())) {
+    db.setEstado(cliente.id, 'inicio', {});
+  }
   if (nombrePerfilWA && !cliente.nombre) {
     db.actualizarCliente(cliente.id, { nombre: nombrePerfilWA });
   }
