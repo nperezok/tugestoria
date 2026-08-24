@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>CRM Gestoría</title>
+<link rel="stylesheet" href="dashboard.css" />
+</head>
+<body>
+  <div id="login" class="login-box">
+    <h2>Ingresar al panel</h2>
+    <input type="password" id="password" placeholder="Clave de acceso" />
+    <button onclick="ingresar()">Entrar</button>
+  </div>
+
+  <div id="app" style="display:none">
+    <header>
+      <h1>📋 CRM Gestoría de Multas</h1>
+      <div id="metricas" class="metricas"></div>
+    </header>
+
+    <div class="filtros">
+      <button onclick="filtrar('')" class="activo">Todos</button>
+      <button onclick="filtrar('nuevo')">Nuevos</button>
+      <button onclick="filtrar('en_conversacion')">En conversación</button>
+      <button onclick="filtrar('turno_agendado')">Turno agendado</button>
+      <button onclick="filtrar('en_gestion')">En gestión</button>
+      <button onclick="filtrar('resuelto')">Resueltos</button>
+      <button onclick="filtrar('perdido')">Perdidos</button>
+    </div>
+
+    <table id="tabla-casos">
+      <thead>
+        <tr>
+          <th>Cliente</th>
+          <th>Teléfono</th>
+          <th>DNI</th>
+          <th>Patente</th>
+          <th>Trámite</th>
+          <th>Estado</th>
+          <th>Turno</th>
+          <th>Gestor</th>
+          <th>Acciones</th>
+        </tr>
+      </thead>
+      <tbody id="cuerpo-tabla"></tbody>
+    </table>
+  </div>
+
+  <!-- Modal de detalle / historial de conversación -->
+  <div id="modal" class="modal" style="display:none">
+    <div class="modal-content">
+      <span class="cerrar" onclick="cerrarModal()">&times;</span>
+      <h3 id="modal-titulo"></h3>
+      <div id="modal-mensajes" class="mensajes"></div>
+      <div class="responder">
+        <input type="text" id="modal-texto" placeholder="Escribir mensaje manual..." />
+        <button onclick="enviarManual()">Enviar</button>
+      </div>
+      <div class="acciones-caso">
+        <label>Estado:
+          <select id="modal-estado">
+            <option value="nuevo">Nuevo</option>
+            <option value="en_conversacion">En conversación</option>
+            <option value="turno_agendado">Turno agendado</option>
+            <option value="en_gestion">En gestión</option>
+            <option value="resuelto">Resuelto</option>
+            <option value="perdido">Perdido</option>
+          </select>
+        </label>
+        <label>Gestor:
+          <select id="modal-gestor"></select>
+        </label>
+        <button onclick="guardarCambiosCaso()">Guardar</button>
+      </div>
+    </div>
+  </div>
+
+  <script src="dashboard.js"></script>
+</body>
+</html>
