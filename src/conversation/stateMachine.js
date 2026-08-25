@@ -16,12 +16,10 @@ const PALABRAS_REINICIO = ['reiniciar', 'menu', 'menú', 'empezar de nuevo', 'vo
 
 async function manejarMensajeEntrante(telefono, textoEntrante, nombrePerfilWA) {
   const cliente = db.getOrCreateCliente(telefono);
-  console.log(`[DEBUG] Mensaje recibido de ${telefono}: "${textoEntrante}"`);
 
   // Palabra clave de reinicio: útil si el cliente queda trabado en algún paso
   // (por ejemplo, si vuelve a tocar un botón de WhatsApp que ya usó antes)
   if (PALABRAS_REINICIO.includes(textoEntrante.trim().toLowerCase())) {
-    console.log('[DEBUG] Coincide con palabra de reinicio, reseteando estado a inicio');
     db.setEstado(cliente.id, 'inicio', {});
   }
   if (nombrePerfilWA && !cliente.nombre) {
@@ -30,7 +28,6 @@ async function manejarMensajeEntrante(telefono, textoEntrante, nombrePerfilWA) {
 
   let caso = db.getCasoAbierto(cliente.id);
   const estado = db.getEstado(cliente.id);
-  console.log(`[DEBUG] Estado actual del paso: "${estado.paso}"`);
   const historial = db.historialMensajes(cliente.id, 12);
 
   db.guardarMensaje(cliente.id, caso?.id, 'entrante', textoEntrante);
