@@ -20,13 +20,19 @@ router.get('/webhook', (req, res) => {
 router.post('/webhook', async (req, res) => {
   res.sendStatus(200); // respondemos rápido a Meta, procesamos después
 
+  console.log('[DEBUG] === Webhook llamado ===');
+  console.log('[DEBUG] Body completo:', JSON.stringify(req.body));
+
   try {
     const entry = req.body.entry?.[0];
     const change = entry?.changes?.[0];
     const value = change?.value;
     const mensaje = value?.messages?.[0];
 
-    if (!mensaje) return; // puede ser un evento de "status" (entregado/leído), lo ignoramos
+    if (!mensaje) {
+      console.log('[DEBUG] No hay "messages" en este webhook (probablemente es un status de entregado/leído). Se ignora.');
+      return;
+    }
 
     console.log('[DEBUG] Mensaje crudo de WhatsApp:', JSON.stringify(mensaje));
 
