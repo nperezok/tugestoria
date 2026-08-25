@@ -28,6 +28,8 @@ router.post('/webhook', async (req, res) => {
 
     if (!mensaje) return; // puede ser un evento de "status" (entregado/leído), lo ignoramos
 
+    console.log('[DEBUG] Mensaje crudo de WhatsApp:', JSON.stringify(mensaje));
+
     const telefono = mensaje.from;
     const nombrePerfil = value.contacts?.[0]?.profile?.name;
 
